@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.performance.slave.mapper.SlaveMapper">
+    
+    <resultMap type="Slave" id="SlaveResult">
+        <result property="slaveId"    column="slave_id"    />
+        <result property="remoteIP"    column="remoteIP"    />
+        <result property="lanIP"    column="lanIP"    />
+        <result property="sshPort"    column="sshPort"    />
+        <result property="userName"    column="userName"    />
+        <result property="password"    column="password"    />
+        <result property="memory"    column="memory"    />
+        <result property="cpu"    column="cpu"    />
+        <result property="status"    column="status"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+	
+	<sql id="selectSlaveVo">
+        select slave_id, remoteIP, lanIP, sshPort, userName, password, memory, cpu, status, type from t_slave
+    </sql>
+	
+    <select id="selectSlaveList" parameterType="Slave" resultMap="SlaveResult">
+        <include refid="selectSlaveVo"/>
+        <where>  
+            <if test="slaveId != null and slaveId != ''"> and slave_id = #{slaveId}</if>
+             <if test="remoteIP != null and remoteIP != ''"> and remoteIP = #{remoteIP}</if>
+             <if test="lanIP != null and lanIP != ''"> and lanIP = #{lanIP}</if>
+             <if test="sshPort != null and sshPort != ''"> and sshPort = #{sshPort}</if>
+             <if test="userName != null and userName != ''"> and userName = #{userName}</if>
+             <if test="password != null and password != ''"> and password = #{password}</if>
+             <if test="memory != null and memory != ''"> and memory = #{memory}</if>
+             <if test="cpu != null and cpu != ''"> and cpu = #{cpu}</if>
+             <if test="status != null and status != ''"> and status = #{status}</if>
+             <if test="type != null and type != ''"> and type = #{type}</if>
+         </where>
+    </select>
+    
+    <select id="selectSlaveById" parameterType="Integer" resultMap="SlaveResult">
+        <include refid="selectSlaveVo"/>
+        where slave_id = #{slaveId}
+    </select>
+        
+    <insert id="insertSlave" parameterType="Slave">
+        insert into t_slave
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="slaveId != null and slaveId != '' ">slave_id,</if>
+			<if test="remoteIP != null and remoteIP != '' ">remoteIP,</if>
+			<if test="lanIP != null and lanIP != '' ">lanIP,</if>
+			<if test="sshPort != null and sshPort != '' ">sshPort,</if>
+			<if test="userName != null and userName != '' ">userName,</if>
+			<if test="password != null and password != '' ">password,</if>
+			<if test="memory != null and memory != '' ">memory,</if>
+			<if test="cpu != null and cpu != '' ">cpu,</if>
+			<if test="status != null and status != '' ">status,</if>
+			<if test="type != null and type != '' ">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="slaveId != null and slaveId != ''">#{slaveId},</if>
+			<if test="remoteIP != null and remoteIP != ''">#{remoteIP},</if>
+			<if test="lanIP != null and lanIP != ''">#{lanIP},</if>
+			<if test="sshPort != null and sshPort != ''">#{sshPort},</if>
+			<if test="userName != null and userName != ''">#{userName},</if>
+			<if test="password != null and password != ''">#{password},</if>
+			<if test="memory != null and memory != ''">#{memory},</if>
+			<if test="cpu != null and cpu != ''">#{cpu},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="type != null and type != ''">#{type},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSlave" parameterType="Slave">
+        update t_slave
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="remoteIP != null  and remoteIP != ''  ">remoteIP = #{remoteIP},</if>
+            <if test="lanIP != null  and lanIP != ''  ">lanIP = #{lanIP},</if>
+            <if test="sshPort != null  ">sshPort = #{sshPort},</if>
+            <if test="userName != null  and userName != ''  ">userName = #{userName},</if>
+            <if test="password != null  and password != ''  ">password = #{password},</if>
+            <if test="memory != null  ">memory = #{memory},</if>
+            <if test="cpu != null  ">cpu = #{cpu},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="type != null  ">type = #{type},</if>
+        </trim>
+        where slave_id = #{slaveId}
+    </update>
+
+	<delete id="deleteSlaveById" parameterType="Integer">
+        delete from t_slave where slave_id = #{slaveId}
+    </delete>
+	
+    <delete id="deleteSlaveByIds" parameterType="String">
+        delete from t_slave where slave_id in 
+        <foreach item="slaveId" collection="array" open="(" separator="," close=")">
+            #{slaveId}
+        </foreach>
+    </delete>
+    
+</mapper>

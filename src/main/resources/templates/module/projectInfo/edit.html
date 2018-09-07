@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-projectInfo-edit" th:object="${projectInfo}">
+            <input id="projectId" name="projectId" th:field="*{projectId}"  type="hidden">
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">项目名称：</label>
+                <div class="col-sm-8">
+                    <input id="projectName" name="projectName" th:field="*{projectName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">项目开始时间：</label>
+                <div class="col-sm-8">
+                    <input id="projectStartDate" name="projectStartDate" th:field="*{projectStartDate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">项目开始时间：</label>
+                <div class="col-sm-8">
+                    <input id="projectEndDate" name="projectEndDate" th:field="*{projectEndDate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">项目版本：</label>
+                <div class="col-sm-8">
+                    <input id="projectversion" name="projectversion" th:field="*{projectversion}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">项目描述：</label>
+                <div class="col-sm-8">
+                    <input id="projectContent" name="projectContent" th:field="*{projectContent}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">所属控制机：</label>
+                <div class="col-sm-8">
+                    <input id="slaveId" name="slaveId" th:field="*{slaveId}" class="form-control" type="text">
+                </div>
+            </div>
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "module/projectInfo"
+		$("#form-projectInfo-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			submitHandler: function(form) {
+				$.operate.save(prefix + "/edit", $('#form-projectInfo-edit').serialize());
+			}
+		});
+	</script>
+</body>
+</html>
